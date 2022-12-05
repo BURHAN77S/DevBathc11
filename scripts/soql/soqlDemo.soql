@@ -1,0 +1,5 @@
+SELECT id, name, project_name__C FROM salesforce_project__C
+
+SELECT Name, Id, phone from account where (phone != null or website != null
+
+select id, name, subject__c, status__c, priority__c from salesforce_ticket__c where status__c != '' and (priority__c = 'high' or priority__c = 'low' or priority__c = '')
