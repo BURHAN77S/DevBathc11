@@ -2,14 +2,36 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 12-12-2022
+ * @last modified on  : 12-13-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
 
 
 trigger AccountTrigger on Account (before insert, before update, after insert, after update) {
-    if (trigger.isAfter && trigger.isUpdate) {
+  /*if(trigger.isBefore){
+          
+          //system.debug('Before insert/update trigger on Account object');
+          for(Account eachAcc: Trigger.new){
+              boolean updateDesc = false;
+              if(trigger.isInsert && eachAcc.active__c=='Yes'){
+                  UpdateDesc = true;
+              }
+              if(trigger.isUpdate){
+                 
+                  Account oldAccount= Trigger.oldMap.get(eachAcc.Id);
+                  Account newAccount = Trigger.newMap.get(eachAcc.Id);
+                  if(eachAcc.active__c=='Yes' && oldAccount.Active__c != newAccount.Active__c){
+                      updateDesc = true;
+                  }
+              }
+              if(updateDesc){
+                  eachAcc.Description = 'Account is now active.Enjoy buddy!';
+              }
+          }
+      }
+
+    /*if (trigger.isAfter && trigger.isUpdate) {
         system.debug('after update trigger');
 
         map<id, account> accTriggerOldMap = trigger.oldMap; //map of old records, id is key
@@ -31,7 +53,7 @@ trigger AccountTrigger on Account (before insert, before update, after insert, a
                 system.debug('Account is ' + newAcc.Name + ', website changed to ' + newwebsite);
                 countwebsite++;
             }
-        }
+        }*/
 
 
     /*List<Account> accTriggerOld = trigger.old;
@@ -126,7 +148,6 @@ trigger AccountTrigger on Account (before insert, before update, after insert, a
             system.debug('AFTER UPDATE each acc id is '+ eachAcc.Id+ 'each acc name is '+ eachAcc.name);
         }
     }*/
-}
 
 
 /*    list<account> accTriggerNew = trigger.new;

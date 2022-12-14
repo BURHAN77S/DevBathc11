@@ -2,11 +2,24 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 12-09-2022
+ * @last modified on  : 12-14-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 trigger ContactTrigger on Contact (before insert, after insert, before update, after update) {
-    if(trigger.isBefore){
+    
+
+  
+        if (Trigger.isBefore) {
+            
+            if (Trigger.isUpdate) {
+                system.debug('we are in before update trigger.');
+                ContactTriggerHandler.contactUpdateValidation1(Trigger.New,Trigger.Old,Trigger.NewMap,Trigger.OldMap);
+            }
+        }
+        
+}
+    
+    /*if(trigger.isBefore){
         system.debug('We are in BEFORE. Not Saved');
         if(trigger.isInsert){
             system.debug('we are in before insert trigger.');
@@ -24,4 +37,4 @@ trigger ContactTrigger on Contact (before insert, after insert, before update, a
             system.debug('we ar in after update trigger.');
         }
     }
-}
+}*/
