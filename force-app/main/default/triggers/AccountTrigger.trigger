@@ -2,13 +2,16 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 12-13-2022
+ * @last modified on  : 12-15-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 
 
 
 trigger AccountTrigger on Account (before insert, before update, after insert, after update) {
+    if(trigger.isBefore){
+        AccountTriggerHandler.updateDescription(Trigger.New, Trigger.Old,Trigger.NewMap,Trigger.OldMap);
+    }
   /*if(trigger.isBefore){
           
           //system.debug('Before insert/update trigger on Account object');
