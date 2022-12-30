@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 12-23-2022
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class DmlDemo {
     public static void dmlInsertDemo_stndObj() {
         //create a new account record using apex code (DML)
@@ -52,6 +59,7 @@ public class DmlDemo {
         contact cnt = new contact();
         cnt.LastName = 'Biden';
         cnt.AccountId = acc.id;
+        cnt.email= 'test@gmail.com';
         insert cnt;
         system.debug('contact record: ' + cnt);
     }
@@ -130,4 +138,5 @@ public class DmlDemo {
             update updateAccount;
         }
     }
+    
 }

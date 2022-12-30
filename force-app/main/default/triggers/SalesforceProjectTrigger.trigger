@@ -2,14 +2,28 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 12-16-2022
+ * @last modified on  : 12-27-2022
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-trigger SalesforceProjectTrigger on Salesforce_Project__c (before insert,after insert, before update, after update) {
-    if(trigger.isAfter && Trigger.isInsert){
-        SalesforceProjectHandler.createDefaultTicket(Trigger.New);
+trigger SalesforceProjectTrigger on Salesforce_Project__c (before insert, after insert, before update, after update) {
+    if (Trigger.isAfter && Trigger.isInsert) {
+         //call trigger handler to CREATE salesforce ticket.
+         SalesforceProjectTriggerHandler.createDefaultTicket(Trigger.New);
+
+         //call future method,
+         system.debug('calling future method NOW.');
+         Map<id, Salesforce_Project__c> spNewMap = trigger.newMap;
+         SalesforceProjectTriggerHandler.spUpdateDescription(spNewMap.keySet());
+         system.debug('called future method. DONE.');
+
     }
-    if(Trigger.isBefore && Trigger.isUpdate){
-        SalesforceProjectHandler.complateSPvalidation(Trigger.New, Trigger.Old, Trigger.newMap, Trigger.oldMap);
+    if (Trigger.isBefore && trigger.isUpdate) {
+        //call validation method here.
+        //SalesforceProjectTriggerHandler.completeSPvalidation(Trigger.New, Trigger.Old, Trigger.NewMap, Trigger.OldMap);
     }
+    if (Trigger.isAfter && Trigger.isUpdate) {
+        //a
+        SalesforceProjectTriggerHandler.spStatusCompleted(Trigger.New, Trigger.Old, Trigger.NewMap, Trigger.OldMap);
+    }
+   
 }
