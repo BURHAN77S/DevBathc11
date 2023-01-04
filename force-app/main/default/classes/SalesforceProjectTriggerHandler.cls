@@ -1,22 +1,29 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 12-27-2022
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
 public class SalesforceProjectTriggerHandler {
     public static void createDefaultTicket(List<salesforce_project__c> spTriggerNew) {
-        List<Salesforce_Ticket__c>  listST = new List<Salesforce_Ticket__c>();
+        try{
+            List<Salesforce_Ticket__c>  listST = new List<Salesforce_Ticket__c>();
 
-        for (salesforce_project__c eachSP : spTriggerNew) {
-            Salesforce_Ticket__c newST = new Salesforce_Ticket__c();
-            newST.Subject__c = 'Default ticket';
-            newST.Salesforce_Project__c = eachSP.Id;
-            listST.add(newST);
-        }
-        if (!listST.isEmpty()) {
-            insert listST;
+            for (salesforce_project__c eachSP : spTriggerNew) {
+                Salesforce_Ticket__c newST = new Salesforce_Ticket__c();
+                newST.Subject__c = 'Default ticket';
+                newST.Salesforce_Project__c = eachSP.Id;
+                //newST.Priority__c = 'Medium';
+                listST.add(newST);
+            }
+            if (!listST.isEmpty()) {
+                list<Database.SaveResult> result = database.insert(listST, false);
+                for(Database.SaveResult r : result){
+                    if(r.isSuccess()){
+                        System.debug('inserted successfully record id is' + r.getId());
+                    }else{
+                        System.debug('Errored out. Errors is' + r.getErrors());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            for(Salesforce_Project__c sp : spTriggerNew){
+            sp.addError('Error in inserting Default ticket. Please contact your dear administrador');
+            }
         }
     }
 

@@ -1,10 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 12-27-2022
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
 trigger SalesforceProjectTrigger on Salesforce_Project__c (before insert, after insert, before update, after update) {
     if (Trigger.isAfter && Trigger.isInsert) {
          //call trigger handler to CREATE salesforce ticket.
@@ -14,6 +7,7 @@ trigger SalesforceProjectTrigger on Salesforce_Project__c (before insert, after 
          system.debug('calling future method NOW.');
          Map<id, Salesforce_Project__c> spNewMap = trigger.newMap;
          SalesforceProjectTriggerHandler.spUpdateDescription(spNewMap.keySet());
+         //we cannot know if future method ran successfully or not, because we don't have job id.
          system.debug('called future method. DONE.');
 
     }
