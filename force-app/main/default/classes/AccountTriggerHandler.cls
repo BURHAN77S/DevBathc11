@@ -1,11 +1,4 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 12-23-2022
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
-public class AccountTriggerHandler {
+public inherited sharing class AccountTriggerHandler {
     public static void updateDescription(List<Account> accTriggerNew, List<account> accTriggerOld,
                                 Map<id, account> accTriggerNewMap, Map<id, account> accTriggerOldMap) {
         for (account eachAcc : accTriggerNew) {
