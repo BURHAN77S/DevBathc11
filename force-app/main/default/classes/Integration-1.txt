@@ -1,0 +1,15 @@
+const { notDeepEqual } = require("assert")
+const { time } = require("console")
+JOUNEREY Of A CUSTOMER IN AMAZON
+1. LOGIN WITH USER ACCOUNT ->
+        a. Integration between Amazon & Salesforce to validate Customer Information
+        b. IAM(store username & password in high security data format) -> Username & Password are corerect or not
+2. ORDER IPHONE 13 PRO MAX ->
+        a. Search 'Iphone 13 Pro Max'
+            i. MDM (Master Data Management) Amazon go and perform SOSL (Search Operation)
+        b. Out of STock/ Based on your location, it show estimated Delivery time
+            i. Iventory Management Sytem (ERP) which hold Product information along with no. of available items in which warehouse
+        c. Buy the Product
+            i. Based on Credit Crad Bank -> It will redirect yout to that particular Bank Website
+            ii. Bank will send out information of success transaction to Amzaon website
+AMAZON uses in total 65 systems in background to servve theircustomer

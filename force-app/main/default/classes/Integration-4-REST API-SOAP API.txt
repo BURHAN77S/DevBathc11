@@ -1,0 +1,19 @@
+REST API
+OUTBOUND INTEGRATION CALLOUT USING REST API
+INBOUND INTEGRATION USING REST API / EXPOSE FEATURE TO EXTERNAL SYSTEM
+
+
+SOAP API
+OUTBOUND INTEGRATION USING SOAP API
+
+
+APEX UNIT CLASS FOR INTEGRATION
+
+Business Requirement: To Integrate with Amazon to automate Ordering process from Salesforce
+
+As a Developer:
+1. Which API we are going to use? SOAP API/REST API? - Amazon Team to answer whether Integration can happen over REST API or not
+2. Whether Order Process is available as an API/feature to be used? - AMAZON API DOCUMENT it will list out all features available to you
+3. Http Method - What is the intent of Message? Ex. POST Data to AMAZON
+4. Message Structure to used
+5. Callout using Apex

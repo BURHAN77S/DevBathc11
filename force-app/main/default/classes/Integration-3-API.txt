@@ -1,0 +1,19 @@
+API (Application Programing Interface)
+
+Holds the definition/set of operation one system can do while integration with an external system
+
+There are different types of API:
+
+* REST API (Messaging Format : JSON) - Representational State Transfer
+* SOAP API (Messaging Format : XML) - Simple Object Access Protocol
+* Bulk API, Streaming API (Not-popular) 
+
+    X -->   You
+
+CallOUT Scenario for X to You
+
+Various type of Interaction
+* To Fetch Some data in Y
+* Create/Update/Delete some data in You
+
+These Interaction is generally defined by HTTP Method -- Intentation behind Messages
