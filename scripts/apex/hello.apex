@@ -28,3 +28,5 @@ Flow.Interview autoLaunchFlow = Flow.Interview.createInterview('Auto_Launched_Fl
 autoLaunchFlow.start();
 
 RestApiOutboundCallout.getAnimals();
+RestApiOutboundCallout.getUser();
+RestApiOutboundCallout.getListOfUsers();
