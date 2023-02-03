@@ -1,6 +1,5 @@
 public with sharing class RestApiOutboundCallout {
 
-
     public static void getAnimals(){
         // STEP 3 ****
         // Prepare Http Request
@@ -11,12 +10,10 @@ public with sharing class RestApiOutboundCallout {
         request.setMethod('GET');
         // NOTE: This Endpoint doesnot need User authentication
 
-
         // STEP 4 ****
         // Make REST Callout
         Http http = new Http();
         HttpResponse response = http.send(request);
-
 
         // STEP 5 ****
         // Getting Http Response
@@ -44,37 +41,32 @@ public with sharing class RestApiOutboundCallout {
             }
         }
     }
+
+
     public static void getUser(){
+        // Prepare Request
         HttpRequest request = new HttpRequest();
-        // 3.a. Setting Endpoint URL for Traget System
         request.setEndpoint('https://reqres.in/api/users/2');
-        // 3.b. Setting Http Method for Request
         request.setMethod('GET');
-        // NOTE: This Endpoint doesnot need User authentication
 
-
-        // STEP 4 ****
-        // Make REST Callout
+        // Send Request
         Http http = new Http();
         HttpResponse response = http.send(request);
 
+        // Get Response
+        System.debug('Response Status : ' + response.getStatus());
+        System.debug('Response Status Code : ' + response.getStatusCode());
+        System.debug('Response Body : ' + response.getBody());
 
-        // STEP 5 ****
-        // Getting Http Response
-        System.debug('Resposnse Status '+ response.getStatus());
-        System.debug('Resposnse Status Code '+ response.getStatusCode());
-        System.debug('Resposnse Body '+ response.getBody());
-
-        // STEP 6 ****
-        // Parsing JSON Response
-        // Condition check for Success response
+        // Parse Response
+        // Always check for Success status in response
         if (response.getStatusCode() == 200) {
             String jsonString = response.getBody();
             Map<String,Object> dataSupportValue = (Map<String,Object>) JSON.deserializeUntyped(jsonString);
             // Convert Object to String -- Similar to Typecasting
-            // String dataValue = (String) dataSupportValue.get('data');
-            String dataValue = String.valueOf(dataSupportValue.get('data'));
+            //String dataValue = String.valueOf(dataSupportValue.get('data'));
             //Map<String,Object> userInfo = (Map<String,Object>) JSON.deserializeUntyped(dataValue);
+            // No Consequite Deserailisation on JSON string is possible
             Map<String, Object> userInfo = (Map<String, Object>) dataSupportValue.get('data');
             // Capture User Information
             String emailId = String.valueOf(userInfo.get('email'));
@@ -84,63 +76,167 @@ public with sharing class RestApiOutboundCallout {
             System.debug('Email Id : ' + emailId);
             System.debug('Name : ' + firstName + ' ' +  lastName);
             System.debug('Id : ' + userId);
-        }
-        if(response.getStatusCode() == 200){
             // TASK : Do the Same with Support part
-            String jsonString = response.getBody();
-            Map<String,Object> dataSupportValue = (Map<String,Object>) JSON.deserializeUntyped(jsonString);
-            String supportValue = String.valueOf(dataSupportValue.get('support'));
-            Map<String, Object> supportInfo = (Map<String, Object>) dataSupportValue.get('support');
-            String url = String.valueOf(supportInfo.get('url'));
-            String text = String.valueOf(supportInfo.get('text'));
-
-            System.debug('Url : ' + Url);
-            System.debug('text : ' + text);
-        
         }
+
     }
+
+
     public static void getListOfUsers(){
         // Preapare Request
         HttpRequest request = new HttpRequest();
-        // 3.a. Setting Endpoint URL for Traget System
         request.setEndpoint('https://gorest.co.in/public/v2/users');
-        // 3.b. Setting Http Method for Request
         request.setMethod('GET');
-        // NOTE: This Endpoint doesnot need User authentication
 
-        // STEP 4 ****
-        // Make REST Callout
+        // Send Request
         Http http = new Http();
         HttpResponse response = http.send(request);
-        
-        // STEP 5 ****
-        // Getting Http Response
-        System.debug('Resposnse Status '+ response.getStatus());
-        System.debug('Resposnse Status Code '+ response.getStatusCode());
-        System.debug('Resposnse Body '+ response.getBody());
 
-        // STEP 6 ****
-        // Parsing JSON Response
-        // Condition check for Success response
-        if (response.getStatusCode() == 200) {
+        // Fetch Response
+        System.debug('Response Status Code : ' + response.getStatusCode());
+        System.debug('Response Status : ' + response.getStatus());
+        System.debug('Response Body : ' + response.getBody());
+
+        // Parsing Response
+        if(response.getStatusCode() == 200){
             String jsonString = response.getBody();
-            Map<String,Object> goRestData = (Map<String,Object>) JSON.deserializeUntyped(jsonString);
-            // Convert Object to String -- Similar to Typecasting
-            String dataValue = String.valueOf(goRestData.get('goRest'));
-            Map<String, Object> userList = (Map<String, Object>) goRestData.get('goRest');
-            // Capture User Information
-            Integer userId = Integer.valueOf(userList.get('id'));
-            String firstName = String.valueOf(userList.get('first_name'));
-            String lastName = String.valueOf(userList.get('last_name'));
-            String email = String.valueOf(userList.get('email'));
-            String gender = String.valueOf(userList.get('gender'));
-            String status = String.valueOf(userList.get('status'));
-            System.debug('Id : ' + userId);
-            System.debug('Name : ' + firstName + ' ' +  lastName);
-            System.debug('Email : ' + email);
-            System.debug('Gender : ' + gender);
-            System.debug('Stutus : ' + status);
+            // Deserialising JSON using APex Wrapper Class
+            List<UserWrapper> userInfos = (List<UserWrapper>) JSON.deserializeStrict(jsonString, List<UserWrapper>.class);
+            for(UserWrapper user : userInfos){
+                String userName = user.name;
+                System.debug(' Famous Person Name :  ' + userName);
+                Integer userId = user.id;
+                System.debug(' Famous Person Id :  ' + userId);
+                System.debug(' Famous Person Email : ' + user.email);
+                System.debug(' Famous Person Status : ' + user.status);
+                System.debug(' Famous Person Gender : ' + user.gender);
+            }
         }
+    }
+
+    // Wrapper Class to store User Information
+    // Key name of JSON should match the variable name in APex Wrapp[er class
+    // Datatype needs to be determined
+    public class UserWrapper {
+        public Integer id;
+        public String name;
+        public String email;
+        public String gender;
+        public String status;
+    }
+
+
+    /**
+     * REST Callout - POST Http Method
+     * Create Resource/Data Information in External System
+     */
+    public static void postAnimal() {
+        // Prepare Http Request
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals');
+        request.setMethod('POST');
+        // Content which wea re adding to Http Request is of JSON type
+        // We are calling out to External SYstem and referring that our Data Contenrt is of JSON type
+        request.setHeader('Content-Type','application/json');
+        // JSON Body Content
+        request.setBody('{ "name" : "fluffy bunny" }');
+
+        // Send Http Request
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+
+        // Fetch Response
+        System.debug('Response Status : '+ response.getStatus());
+        System.debug('Response Status Code : '+ response.getStatusCode());
+        System.debug('Response Body : ' + response.getBody());
+
+        // Process Response
+        if(response.getStatusCode() == 201){
+            // Success Scenario
+            System.debug('Animal Resource is CREATED!! :) ');
+        } else {
+            // Failure Scenario
+            System.debug('Animal Resource is not Created, Something went wrong!! :( ');
+        }
+    }
+
+
+    /**
+     * REST Callout - POST Http Method
+     * Create an User in External System
+     */
+    public static void postUser(){
+        // Prepare Request
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://reqres.in/api/users');
+        request.setMethod('POST');
+        // Declare Content Type is of JSON type
+        request.setHeader('Content-Type','application/json');
+
+        // Preapare JSON String
+        // Approach 1 - Maual String Construction
+        // request.setBody('{ "name" : "Abinash Panigrahi", "job" : "Salesforec Architect" }');
+
+        // Approach 2 - Wrapper Class and Serialise
+        UserRequest obj = new UserRequest();
+        obj.name = 'Burhan Celik';
+        obj.job = 'Salesforce Developer';
+        // Convert Wrapper Class content to JSON String
+        String jsonBody = JSON.serialize(obj);
+        request.setBody(jsonBody);
+
+        // Send Request
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+
+        // Fetch Response
+        System.debug('Response Status : '+ response.getStatus());
+        System.debug('Response Status Code : '+ response.getStatusCode());
+        System.debug('Response Body : '+ response.getBody());
+
+        // Process Response
+        if(response.getStatusCode() == 201){
+            System.debug('User Resource Successfully Created! :) ');
+            // TASK: To Fetch User Id from Reposne
+            // Approach 1
+            String jsonString = response.getBody();
+            //Map<String, Object> userResp = (Map<String, Object>) JSON.deserializeUntyped(jsonString);
+            //String userId = String.valueOf(userResp.get('id'));
+            //System.debug('User Craeted Newly Generated Id : '+ userId);
+            // Approach 2
+            UserResponse userResp = (UserResponse) JSON.deserializeStrict(jsonString,UserResponse.class);
+            String userId = userResp.id;
+            System.debug('User Craeted Newly Generated Id : '+ userId);
+        } else {
+            System.debug('User Resource Failed! :( ');
+        }
+    }
+
+    // Wrapper Class to hold User Information
+    public class UserRequest {
+        public String name;
+        public String job;
+    }
+
+    public class UserResponse {
+        public String id;
+        public String name;
+        public String job;
+        public String createdAt;
+    }
+/**
+     * As a best pratice, Authentication details for Outbound Integration needs to be stored in Named Credential
+     * 1. End Point
+     * 2. Username & Password
+     * REST Callout - To Heroku App with AUthentication using Named Credential
+     */
+    public static void getAnimalWithAuthenticationNamedCredential(){
+        // Prepare Request
+        HttpRequest request = new HttpRequest();
+        // ERefering Named Credential
+        request.setEndpoint('callout:Animal_Heroku_App');
+        request.setMethod('GET');
+
     }
 }
 
@@ -151,10 +247,11 @@ public with sharing class RestApiOutboundCallout {
  *  Step I : Create Remote Site Setting
  *  Step II : Dry/Mock Run with Postman/Insomnia to replicate our Callout Scenario
  *  Step III : Create Http Request
- *          a. Endpoint URL
+ *          a. Endpoint URL - Domain + URI
  *          b. HTTP Method - Define the intent of Callout request
  *              GET (Fetch), POST (Create), PATCH (Update), PUT (Update/Replace), DELETE
  *          c. Authentication - User credentials
+ *          d. Request Content/Body - Placeholder information - JSON
  *  Step IV : Sending Http Request
  *  Step V : Getting Http Response
  *          a. Status Code
@@ -163,13 +260,13 @@ public with sharing class RestApiOutboundCallout {
  *              204 (Success Response Code for DELETE Request)
  *              401 (Error Code for Unauthrozed Access)
  *              404 (File/URL not accessible)
- *          b. Response Content - Typically JSON
+ *          b. Response Content/Body - Typically JSON
  *  Step VI : Parsing JSON Resposne
  *          i. Manually Deserialising JSON Resposne. Then Looping through to find the correct key and Value
  *          ii. Using Apex Wrapper Class for deasrailisation
  *
  *
- * 
+ *
  * PreRequistive :
  *  1. Target External System Endpoint URL
  *  2. User Credentials

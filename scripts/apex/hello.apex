@@ -26,7 +26,8 @@ inputs.put('recordId', '001Do000003CQyWIAW');
 Flow.Interview autoLaunchFlow = Flow.Interview.createInterview('Auto_Launched_Flow_Demo', inputs);
 
 autoLaunchFlow.start();
-
 RestApiOutboundCallout.getAnimals();
 RestApiOutboundCallout.getUser();
 RestApiOutboundCallout.getListOfUsers();
+RestApiOutboundCallout.postAnimal();
+RestApiOutboundCallout.postUser();
