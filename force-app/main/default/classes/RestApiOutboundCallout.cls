@@ -1,6 +1,6 @@
 public with sharing class RestApiOutboundCallout {
 
-    public static void getAnimals(){
+    public static HttpResponse getAnimals(){
         // STEP 3 ****
         // Prepare Http Request
         HttpRequest request = new HttpRequest();
@@ -40,10 +40,11 @@ public with sharing class RestApiOutboundCallout {
                 System.debug('Final Parse Result : '+ animalName);
             }
         }
+        return response;
     }
 
 
-    public static void getUser(){
+    public static HttpResponse getUser(){
         // Prepare Request
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://reqres.in/api/users/2');
@@ -78,11 +79,11 @@ public with sharing class RestApiOutboundCallout {
             System.debug('Id : ' + userId);
             // TASK : Do the Same with Support part
         }
-
+        return response;
     }
 
 
-    public static void getListOfUsers(){
+    public static HttpResponse getListOfUsers(){
         // Preapare Request
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://gorest.co.in/public/v2/users');
@@ -112,6 +113,7 @@ public with sharing class RestApiOutboundCallout {
                 System.debug(' Famous Person Gender : ' + user.gender);
             }
         }
+        return response;
     }
 
     // Wrapper Class to store User Information
@@ -130,7 +132,7 @@ public with sharing class RestApiOutboundCallout {
      * REST Callout - POST Http Method
      * Create Resource/Data Information in External System
      */
-    public static void postAnimal() {
+    public static HttpResponse postAnimal() {
         // Prepare Http Request
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals');
@@ -158,6 +160,7 @@ public with sharing class RestApiOutboundCallout {
             // Failure Scenario
             System.debug('Animal Resource is not Created, Something went wrong!! :( ');
         }
+        return response;
     }
 
 
@@ -165,7 +168,7 @@ public with sharing class RestApiOutboundCallout {
      * REST Callout - POST Http Method
      * Create an User in External System
      */
-    public static void postUser(){
+    public static HttpResponse postUser(){
         // Prepare Request
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://reqres.in/api/users');
@@ -210,6 +213,7 @@ public with sharing class RestApiOutboundCallout {
         } else {
             System.debug('User Resource Failed! :( ');
         }
+        return response;
     }
 
     // Wrapper Class to hold User Information
@@ -230,12 +234,28 @@ public with sharing class RestApiOutboundCallout {
      * 2. Username & Password
      * REST Callout - To Heroku App with AUthentication using Named Credential
      */
+    /**
+     * As a best pratice, Authentication details for Outbound Integration needs to be stored in Named Credential
+     * 1. End Point
+     * 2. Username & Password
+     * REST Callout - To Heroku App with AUthentication using Named Credential
+     */
     public static void getAnimalWithAuthenticationNamedCredential(){
         // Prepare Request
         HttpRequest request = new HttpRequest();
         // ERefering Named Credential
+        // EndPoint information & User credential
         request.setEndpoint('callout:Animal_Heroku_App');
         request.setMethod('GET');
+
+        // Sending Request
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+
+        // Fetching Response
+        System.debug('Resposnse Status '+ response.getStatus());
+        System.debug('Resposnse Status Code '+ response.getStatusCode());
+        System.debug('Resposnse Content/Body '+ response.getBody());
 
     }
 }
