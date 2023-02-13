@@ -32,3 +32,5 @@ RestApiOutboundCallout.getListOfUsers();
 RestApiOutboundCallout.postAnimal();
 RestApiOutboundCallout.postUser();
 SoapApiOutboundCallout.makeMultiplcation();
+SoapApiOutboundCallout_Test.makeCalculatorCalloutSuccessTest();
+SoapApiOutboundCallout_Test.makeParkCalloutSuccesTest();
