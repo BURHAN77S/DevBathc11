@@ -31,3 +31,4 @@ RestApiOutboundCallout.getUser();
 RestApiOutboundCallout.getListOfUsers();
 RestApiOutboundCallout.postAnimal();
 RestApiOutboundCallout.postUser();
+SoapApiOutboundCallout.makeMultiplcation();
