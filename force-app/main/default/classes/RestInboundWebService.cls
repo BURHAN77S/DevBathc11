@@ -12,7 +12,7 @@
  * Then only resort to create a Custom WebService
  * Documention : https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_list.htm
  *
- * Testing Endpoint: https://abinash-panigrahi-0113-dev-ed.my.salesforce.com/services/apexrest/InboundCaseManager/
+ * Testing Endpoint: https://burhancelikco-dev-ed.develop.lightning.force.com/services/apexrest/InboundCaseManager/
  * How to build Testing Endpoint URL?
  * 1. Identify Domain - Setup => My Domain . i.e, abinash-panigrahi-0113-dev-ed.my.salesforce.com
  * 2. /services/apexrest/ - This is Constant url mapping, which will always remains the same
@@ -28,7 +28,7 @@ global with sharing class RestInboundWebService {
      * This method will enable feature where we will expose/send Case record by their Salesforce Id
      * HttpMethod - GET
      * Return type of method will be mapped directly to Response Body
-     * Endpoint - https://abinash-panigrahi-0113-dev-ed.my.salesforce.com/services/apexrest/InboundCaseManager/xxxxxxxxxxx
+     * Endpoint - https://burhancelikco-dev-ed.develop.lightning.force.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
      * In GET Request, Input parameters are always provided at the URL level
      */
     @HttpGet
@@ -49,9 +49,15 @@ global with sharing class RestInboundWebService {
         // Return Case information
         return result;
     }
-
+    /**
+     * This method is going to delete a partucular Case record based on the Salesforce Id. This functionality will be invoked/initated by External system.
+     * HttpMethod - Delete
+     * Endpoint - https://burhancelikco-dev-ed.develop.lightning.force.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
+     * If return type is void then we have to build custom RestResponse
+     */
+    
     @HttpDelete
     global static void deleteCase(){
-
+        
     }
 }
