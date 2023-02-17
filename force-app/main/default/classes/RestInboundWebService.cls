@@ -28,7 +28,7 @@ global with sharing class RestInboundWebService {
      * This method will enable feature where we will expose/send Case record by their Salesforce Id
      * HttpMethod - GET
      * Return type of method will be mapped directly to Response Body
-     * Endpoint - https://burhancelikco-dev-ed.develop.lightning.force.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
+     * Endpoint - https://burhancelikco-dev-ed.develop.my.salesforce.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
      * In GET Request, Input parameters are always provided at the URL level
      */
     @HttpGet
@@ -51,13 +51,102 @@ global with sharing class RestInboundWebService {
     }
     /**
      * This method is going to delete a partucular Case record based on the Salesforce Id. This functionality will be invoked/initated by External system.
-     * HttpMethod - Delete
-     * Endpoint - https://burhancelikco-dev-ed.develop.lightning.force.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
-     * If return type is void then we have to build custom RestResponse
+     * Endpoint - https://burhancelikco-dev-ed.develop.my.salesforce.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
+     * HTTP Method - DELETE
+     * Create Success & Fail Response with dynamic Status Code and Body
      */
-    
+
     @HttpDelete
     global static void deleteCase(){
+        // To fetch Rest Repuest sent bye External System
+        RestRequest request = RestContext.Request;
+        System.debug('HTTP Request Details sent by External SYstem ' + request);
+        System.debug('Endpoint ' + request.requestURI);
+        System.debug('Http Method ' + request.httpMethod);
+        System.debug('Header ' + request.headers);
+        // Find Case Id info from the URL Endpoint
+        String caseId = request.requestURI.substring(request.requestURI.lastIndexOf('/') +1);
+        System.debug('Case Record Id: ' + caseId);
+        // Fetch Case record using SOQL
+        Case matchingResult = [select Id from case where Id =: caseId WITH SECURITY_ENFORCED LIMIT 1];
+        // Build Custom Response
+        RestResponse response = RestContext.Response;
+        if(matchingResult != null){
+            // Success Scenario
+            delete matchingResult;
+            // Success Code for Delete operation => 204
+            response.statusCode = 204;
+            // Response Body always expect data to be present in Binary format
+            response.responseBody = Blob.valueOf('Case Record was successfully deleted! :) ');
+        }else{
+            // Error Scenario
+            response.statusCode = 404;
+            response.responseBody = Blob.valueOf('Error Encountered, Record Does nat exist.');
+
+        }
+    }
         
+    /**
+     * This method is going to create Case record by getting all required field values from External Sytem request
+     * Http Method - POST
+     * Testing Endpoint - https://burhancelikco-dev-ed.develop.my.salesforce.com/services/apexrest/InboundCaseManager/500Do000001bYfFIAU
+     * Request Body - { 'subject' : 'xxx', 'description' : 'xxx', 'status' : 'xxx', 'priority' : 'xxx', 'origin' : 'xxx'  }
+     * Return Custom meaningful JSON response based on Success/Failure
+     * Response Body - { 'id' : 'xxx', 'status' : 'Success/Failure', 'errorMessage' : 'xxx' }
+     */
+    @HttpPost
+    global static void createCase(String subject, String description, String status, String priority, String origin){
+        // Get Request content sent by External System
+        RestRequest request = RestContext.request;
+        System.debug('HTTP Request Details sent by External SYstem ' + request);
+        System.debug('Endpoint ' + request.requestURI);
+        System.debug('Http Method ' + request.httpMethod);
+        System.debug('Header ' + request.headers);
+        System.debug('Request Body ' + request.requestBody);
+
+        // Create Case Sobject instance
+        Case newRec = new Case();
+        newRec.Subject = subject;
+        newRec.Description = description;
+        newRec.Status = status;
+        newRec.Priority = priority;
+        newRec.Origin = origin;
+
+        // Prepare Custom Response
+        RestResponse response = new RestResponse();
+        response.addHeader('Content-Type', 'application/json');
+        PostResponseWrapper responseContent = new PostResponseWrapper();
+
+        // Insertion Case record
+        try {
+            insert newRec;
+
+            // Success Response
+            response.statusCode = 201;
+            // Prepare JSON Response Body
+            responseContent.id = newRec.Id;
+            responseContent.status = 'Success';
+            responseContent.errorMessage = '';
+
+        } catch (Exception ex) {
+            // Error Response
+            response.statusCode = 404;
+            // Prepare JSON Response Body
+            responseContent.id = '';
+            responseContent.status = 'Failure';
+            responseContent.errorMessage = ex.getMessage();
+        }
+
+        // Populate Response Body
+        String responseBody = JSON.serialize(responseContent);
+        response.responseBody = Blob.valueOf(responseBody);
+
+    }
+
+    // Wrapper Class for Response Building
+    public class PostResponseWrapper {
+        public String id;
+        public String status;
+        public STring errorMessage;
     }
 }
