@@ -1,7 +1,13 @@
 import { LightningElement } from 'lwc';
 export default class HelloWorld extends LightningElement {
-  greeting = 'Burhan Celik';
-  changeHandler(event) {
-    this.greeting = event.target.value;
+  fullName = 'Burhan Celik';
+  age = 46;
+  location = {
+    city : 'Loveland',
+    state : 'Ohio',
+    country : 'Usa'
+  };
+  sum (a, b){
+    return a + b;
   }
 }

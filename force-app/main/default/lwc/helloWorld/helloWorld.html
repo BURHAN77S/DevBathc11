@@ -1,8 +1,10 @@
 <template>
-    <lightning-card title="First Compenent" icon-name="custom:custom14">
+    <lightning-card title="First Compenent">
       <div class="slds-m-around_medium">
-            Hello World!
-        <lightning-input label="Name" value={greeting} onchange={changeHandler}></lightning-input>
+        <i><b>Hello World!</b></i><br/><br/>
+            My Name is <i><b>{fullName}</b></i><br/>
+            Age is <i><b>{age}</b></i><br/>
+            I live in <i><b>{location.city}, {location.state}, {location.country}</b></i><br/>
       </div>
     </lightning-card>
   </template>
