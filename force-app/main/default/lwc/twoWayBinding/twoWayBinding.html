@@ -3,16 +3,16 @@
         <div class = "slds-var-m-around_medium">
             <lightning-input 
                 type="text"
-                label="Enter your name"
+                label = "Enter your name"
                 value = {fullname}
                 onchange = {changeHandler}>
-        </lightning-input>
-        <lightning-combobox
-            label = "Select Your Role"
-            options = {roleOptions}
-            value = {role}
-            onchange = {changeHandlerCombobox}>
-        </lightning-combobox>
+            </lightning-input>
+            <lightning-combobox
+                label = "Select Your Role"
+                options = {roleOptions}
+                value = {role}
+                onchange = {changeHandler}>
+            </lightning-combobox>
         </div>
         <div class = "slds-var-m-left_small">
             My name is {fullname}

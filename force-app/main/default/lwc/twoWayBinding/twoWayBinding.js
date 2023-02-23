@@ -2,6 +2,7 @@ import { LightningElement } from 'lwc';
 
 export default class TwoWayBinding extends LightningElement {
     fullname = "Burhan Celik";
+    x = 5;
     role;
     roleOptions = [
         { label: 'Salesforce Admin', value: 'Salesforce Admin' },
@@ -11,13 +12,14 @@ export default class TwoWayBinding extends LightningElement {
     ];
 
     changeHandler(event){
-        if(event.target.label ==='Enter your name'){
+        if(event.target.label === "Enter your name"){
             this.fullname = event.target.value;
-        }else{
+        }else {
             this.role = event.target.value;
         }
+    }
 
-    /*changeHandlerCombobox(event){
-        this.role = event.target.value;
-    }*/
+    // changeHandlerCombobox(event){
+    //     this.role = event.target.value;
+    // }
 }
