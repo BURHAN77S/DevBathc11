@@ -4,7 +4,11 @@
             <lightning-record-form
             object-api-name = {objectName}
             fields = {accFields} 
-            record-id = {recordId}>
+            record-id = {recordId}
+            mode = "edit"
+            columns="2"
+            onsuccess={successHandler}
+            onerror={errorHandler}>
         </lightning-record-form>
         </div>
     </lightning-card>
