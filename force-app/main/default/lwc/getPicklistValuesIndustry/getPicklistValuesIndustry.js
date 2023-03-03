@@ -23,17 +23,17 @@ export default class GetPicklistValuesIndustry extends LightningElement {
     @wire (getPicklistValues, {fieldApiName:INDUSTRY_FIELD, recordTypeId:'$defaultRtId'})
     picklistHandler({data, error}){
         if(data){
-            console.log('Picklist Data =>' , data);
+            console.log('Picklist Data =>>' , data);
 
-            /*let options = [];
-            for (const element of data.values) {
-                let singleValueObject = {
-                    label:element.label,
-                    value:element.vulae
-                }
-                options.push(singleValueObject);
-            }
-            this.industryOptions = options;*/
+            // let options = [];
+            // for(const element of data.values){
+            //     let singleValueObject = {
+            //         label:element.label,
+            //         value:element.value
+            //     }
+            //     options.push(singleValueObject);
+            // }
+            // this.industryOptions = options;
 
             this.industryOptions = data.values;
         }
@@ -41,8 +41,8 @@ export default class GetPicklistValuesIndustry extends LightningElement {
             console.log(error);
         }
     }
-    
-    changeHandler(eent){
+
+    changeHandler(event){
         this.selectedIndustry = event.target.value;
         this.isSelected = true;
     }
