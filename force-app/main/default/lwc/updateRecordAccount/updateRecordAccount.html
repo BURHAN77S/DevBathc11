@@ -1,43 +1,46 @@
 <template>
-    <lightning-card title="Update Record - Account" icon-name="standard:account">
-        <div class = "slds-var-m-around_medium">
-            <form class="accform">
-                <lightning-input
-                    type = "text"
-                    label = "Account Name"
-                    value = {anyData}
-                    name = "Name"
-                    onchange = {changeHandler}>
+    <lightning-card title="Update Record-Account" icon-name="standard:account">
+        <div class="slds-var-m-around_medium">
+            <template lwc:if={account.data}>
+                <form class="accform">
+                    <lightning-input
+                    type="text"
+                    label="Account Name"
+                    value= {account.data.fields.Name.value} 
+                    name="Name"
+                    onchange= {changeHandler}>
                 </lightning-input>
+                <!--name kisminda yine field api name kullandik-->
                 <lightning-combobox
-                    label ="Type"
-                    value = {anyData}
-                    name = "Type"
-                    options = {typeOptions}
-                    onchange = {changeHandler}>
+                    label="Type"
+                    value= {account.data.fields.Type.value} 
+                    name="Type"
+                    options= {typeOptions}
+                    onchange= {changeHandler}>
                 </lightning-combobox>
                 <lightning-combobox
-                    label ="Industry"
-                    value = {anyData}
-                    name = "Industry"
-                    options = {industryOptions}
-                    onchange = {changeHandler}>
+                    label="Industry"
+                    value= {account.data.fields.Industry.value} 
+                    name="Industry"
+                    options= {industryOptions}
+                    onchange= {changeHandler}>
                 </lightning-combobox>
                 <lightning-input
-                    type = "number"
-                    label = "Annual Revenue"
-                    value = {anyData}
-                    name = "AnnualRevenue"
-                    onchange = {changeHandler}>
+                    type="number"
+                    label="Annual Revenue"
+                    value= {account.data.fields.AnnualRevenue.value} 
+                    name="AnnualRevenue"
+                    onchange= {changeHandler}>
                 </lightning-input>
-                    <div class="slds-var-m-top_small slds-align_absolute-center">
+                <div class="slds-var-m-top_small  slds-align_absolute-center">
                     <lightning-button
-                        label = "update"
-                        variant = "brand"
-                        onclick = {saveAccount}>
-                    </lightning-button>
+                    label="Update"
+                    variant="brand"
+                    onclick= {saveAccount}>
+                </lightning-button>
                 </div>
-            </form>
+                </form>
+            </template> 
         </div>
     </lightning-card>
 </template>
