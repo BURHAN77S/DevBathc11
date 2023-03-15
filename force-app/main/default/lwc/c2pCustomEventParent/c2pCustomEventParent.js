@@ -1,20 +1,15 @@
-// Task: To create a Counter Component
-
-//Parent: Show Counter Value and do increment/decrement
-//Child : Create Add and Subtract buttons. Dispatch Custom event.
-
 import { LightningElement } from 'lwc';
 
-export default class C2pCustomEventChild extends LightningElement {
+export default class C2pCustomEventParent extends LightningElement {
 
-    handleSubtract(){
-        //Create a Custom Event of name as 'subtraction'
-        const subtractEvent = new CustomEvent('subtraction');
-        this.dispatchEvent(subtractEvent);
+    counter = 0;
+
+    handleSubtraction(){
+        this.counter = this.counter - 3;
     }
 
-    handleAdd(){
-        const addEvent = new CustomEvent('addition');
-        this.dispatchEvent(addEvent);
+
+    handleAddition(){
+        this.counter = this.counter + 2;
     }
 }
