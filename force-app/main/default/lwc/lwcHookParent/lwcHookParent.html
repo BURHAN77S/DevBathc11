@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title= "Lifecycle Hook">
+        <div class="slds-var-m-around_medium">
+            This is a parent component <br/>
+            <lightning-button
+                label="Show/Hide Child"
+                variant="brand"
+                onclick={clickHandler}
+                class="slds-var-m-top_small">
+            </lightning-button>
+        </div>
+        <template lwc:if  = {showChild}>
+            <c-lwc-hook-child class="slds-var-m-around_medium"></c-lwc-hook-child>
+        </template>
+    </lightning-card>
+</template>

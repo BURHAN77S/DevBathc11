@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Render Method">
+        <div class="slds-var-m-around_medium">
+            <div>Are you a new customer? Click "Sign Up" button to proceeed</div><br/>
+        </div>
+        <lightning-button 
+            label="SignUp"
+            variant="brand"
+            onclick={clickHandler}>
+        </lightning-button>
+        <div>Are you an existing customer? Click "LogIn" button to proceed</div>
+        <lightning-button
+        label="LogIn"
+        variand="neutral"
+        onclick={clickHandler}>
+        </lightning-button>
+    </lightning-card>
+</template>
