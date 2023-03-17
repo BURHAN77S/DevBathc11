@@ -8,16 +8,16 @@ export default class LmsSubscriberComp extends LightningElement {
     @wire(MessageContext)
     context;
 
-    connectedCallback(){
+    connectedCallback() {
         this.subscribeHandler();
     }
 
-    subscribeHandler(){
+    subscribeHandler() {
         subscribe(
             this.context,
             SI_MC,
-            (message) =>{this.messageReceived = message},
-            {scope:APPLICATION_SCOPE}
+            (message) => { this.messageReceived = message },
+            { scope: APPLICATION_SCOPE }
         );
     }
 }

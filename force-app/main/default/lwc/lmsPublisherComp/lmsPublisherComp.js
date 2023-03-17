@@ -8,16 +8,16 @@ export default class LmsPublisherComp extends LightningElement {
     @wire(MessageContext)
     context;
 
-    changeHandler(event){
+    changeHandler(event) {
         this.messageValue = event.target.value;
     }
 
-    publishHandler(){
+    publishHandler() {
         const message = {
             lmsData: {
-                value : this.messageValue,
-                name : "message",
-                type : "Entered manually by the user!"
+                value: this.messageValue,
+                name: "message",
+                type: "Entered manually by the user!"
             }
         };
         publish(this.context, SI_MC, message);
